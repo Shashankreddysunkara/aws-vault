@@ -27,7 +27,8 @@ func Rotate(profileName string, keyring keyring.Keyring, config *Config) error {
 		return err
 	}
 
-	oldSess := session.New(&aws.Config{Region: aws.String(config.Region),
+	oldSess := session.New(&aws.Config{
+		Region:      aws.String(config.Region),
 		Credentials: credentials.NewCredentials(&credentials.StaticProvider{Value: oldMasterCreds}),
 	})
 
@@ -63,7 +64,8 @@ func Rotate(profileName string, keyring keyring.Keyring, config *Config) error {
 		iamUserName = aws.String(currentUserName)
 	}
 
-	oldSessionClient := iam.New(session.New(&aws.Config{Region: aws.String(provider.Region),
+	oldSessionClient := iam.New(session.New(&aws.Config{
+		Region:      aws.String(config.Region),
 		Credentials: credentials.NewCredentials(&credentials.StaticProvider{Value: oldSessionVal}),
 	}))
 
@@ -106,7 +108,8 @@ func Rotate(profileName string, keyring keyring.Keyring, config *Config) error {
 			return err
 		}
 
-		newClient := iam.New(session.New(&aws.Config{Region: aws.String(provider.Region),
+		newClient := iam.New(session.New(&aws.Config{
+			Region:      aws.String(config.Region),
 			Credentials: credentials.NewCredentials(&credentials.StaticProvider{Value: newVal}),
 		}))
 
